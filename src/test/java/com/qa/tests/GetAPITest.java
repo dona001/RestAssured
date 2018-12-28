@@ -34,58 +34,6 @@ public class GetAPITest extends TestBase{
 	
 	}
 	
-	@Test(priority=1)
-	public void getTest() throws ClientProtocolException, IOException {
-		restClient = new RestClient();
-		closebleHttpResponse = restClient.get(url);
-		
-		//Statuscode
-		int statusCode =  closebleHttpResponse.getStatusLine().getStatusCode();
-		System.out.println("Status Code--->"+statusCode);
-		
-		Assert.assertEquals(statusCode, RESPONSE_STATUS_CODE_200 , "Status code is not 200");
-		
-		//pure string
-		String responseString = EntityUtils.toString(closebleHttpResponse.getEntity(), "UTF-8");  
-		
-		//json convert to String 
-		JSONObject responseJson = new JSONObject(responseString);
-		System.out.println("Responce Json---->"+responseJson);
-		
-		//perpage json output 
-		String perpage = TestUtil.getValueByJPath(responseJson, "/per_page");
-		System.out.println("Per Page ----->"+perpage);
-		
-		Assert.assertEquals(Integer.parseInt(perpage), 3);  // i used interger for change the string and interger value 
-		
-		//Total Output
-		String total = TestUtil.getValueByJPath(responseJson, "/total");
-		System.out.println("Total ----->"+total);
-		
-		//data Array call 
-		String Lastname = TestUtil.getValueByJPath(responseJson, "/data[0]/last_name");
-		String ID = TestUtil.getValueByJPath(responseJson, "/data[0]/id");
-		String Avatar = TestUtil.getValueByJPath(responseJson, "/data[0]/avatar");
-		String Firstname = TestUtil.getValueByJPath(responseJson, "/data[0]/first_name");
-		
-		System.out.println("Lastname---->"+Lastname);
-		System.out.println("ID---->"+ID);
-		System.out.println("Avatar---->"+Avatar);
-		System.out.println("Firstname---->"+Firstname);
-		
-		
-		//Header Response 
-		Header[] headersArray = closebleHttpResponse.getAllHeaders();
-		
-		HashMap<String, String> allHeaders = new HashMap<String, String>();
-		for(Header header : headersArray) {
-			allHeaders.put(header.getName(), header.getValue());
-		}
-		
-		System.out.println("Header Array---->"+allHeaders);
-
-	}
-	
 	//with Header
 	@Test
 	public void getTestwithHeader() throws ClientProtocolException, IOException {
@@ -94,8 +42,8 @@ public class GetAPITest extends TestBase{
 		//Passing Header Key And value 
 		HashMap<String, String> headerMap = new HashMap<String,String>();
 		headerMap.put("Content-Type", "application/json");
-		//headerMap.put("Content-Type", "application/json");
-		//headerMap.put("Content-Type", "application/json");
+		//headerMap.put("Username", "xxxxxx");
+		//headerMap.put("password", "111111");
 		
 		//with url map will pass
 		closebleHttpResponse = restClient.get(url,headerMap);
